@@ -1,0 +1,459 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ========================
+   ScamShield Design System
+   ======================== */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ScamShield Custom Colors */
+  --color-cyber-blue: #3b82f6;
+  --color-cyber-cyan: #06b6d4;
+  --color-cyber-green: #10b981;
+  --color-cyber-red: #ef4444;
+  --color-cyber-amber: #f59e0b;
+  --color-cyber-purple: #8b5cf6;
+  --color-navy: #0a0e1a;
+  --color-navy-light: #111827;
+  --color-navy-lighter: #1f2937;
+}
+
+/* Light theme (default) */
+:root {
+  --background: oklch(0.98 0.005 260);
+  --foreground: oklch(0.15 0.01 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.01 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.01 260);
+  --primary: oklch(0.55 0.2 260);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.95 0.01 260);
+  --secondary-foreground: oklch(0.2 0.01 260);
+  --muted: oklch(0.95 0.01 260);
+  --muted-foreground: oklch(0.45 0.02 260);
+  --accent: oklch(0.95 0.01 260);
+  --accent-foreground: oklch(0.2 0.01 260);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(0.9 0.02 260);
+  --input: oklch(0.9 0.02 260);
+  --ring: oklch(0.55 0.2 260);
+  --chart-1: oklch(0.65 0.2 260);
+  --chart-2: oklch(0.7 0.15 170);
+  --chart-3: oklch(0.75 0.12 80);
+  --chart-4: oklch(0.6 0.18 330);
+  --chart-5: oklch(0.55 0.22 25);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.98 0.005 260);
+  --sidebar-foreground: oklch(0.15 0.01 260);
+  --sidebar-primary: oklch(0.55 0.2 260);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0.01 260);
+  --sidebar-accent-foreground: oklch(0.2 0.01 260);
+  --sidebar-border: oklch(0.9 0.02 260);
+  --sidebar-ring: oklch(0.55 0.2 260);
+}
+
+/* Dark cybersecurity theme */
+.dark {
+  --background: oklch(0.08 0.01 260);
+  --foreground: oklch(0.95 0.01 260);
+  --card: oklch(0.12 0.015 260);
+  --card-foreground: oklch(0.95 0.01 260);
+  --popover: oklch(0.12 0.015 260);
+  --popover-foreground: oklch(0.95 0.01 260);
+  --primary: oklch(0.65 0.2 260);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.18 0.015 260);
+  --secondary-foreground: oklch(0.9 0.01 260);
+  --muted: oklch(0.18 0.015 260);
+  --muted-foreground: oklch(0.6 0.02 260);
+  --accent: oklch(0.2 0.03 260);
+  --accent-foreground: oklch(0.9 0.01 260);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(0.25 0.02 260);
+  --input: oklch(0.2 0.02 260);
+  --ring: oklch(0.65 0.2 260);
+  --chart-1: oklch(0.65 0.2 260);
+  --chart-2: oklch(0.7 0.15 170);
+  --chart-3: oklch(0.75 0.12 80);
+  --chart-4: oklch(0.6 0.18 330);
+  --chart-5: oklch(0.55 0.22 25);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.1 0.015 260);
+  --sidebar-foreground: oklch(0.95 0.01 260);
+  --sidebar-primary: oklch(0.65 0.2 260);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.18 0.02 260);
+  --sidebar-accent-foreground: oklch(0.9 0.01 260);
+  --sidebar-border: oklch(0.25 0.02 260);
+  --sidebar-ring: oklch(0.65 0.2 260);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+    /* Prevent horizontal overflow on mobile */
+    overflow-x: hidden;
+  }
+}
+
+/* ========================
+   Mobile-First Global Fixes
+   ======================== */
+
+/* Prevent horizontal overflow everywhere */
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all images and media are responsive */
+img, video, svg, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce motion for low-end devices */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Safe area for bottom nav on mobile */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Hover-safe: only apply hover on devices that support it */
+@media (hover: hover) {
+  .hover-safe:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Tap feedback for touch devices */
+@keyframes tap-feedback {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+.tap-active:active {
+  animation: tap-feedback 0.15s ease-out;
+}
+
+/* Audio waveform container */
+audio::-webkit-media-controls-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+/* Empathy-focused content styling */
+.prose-calm {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+}
+.prose-calm strong {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ========================
+   Accessibility Classes
+   ======================== */
+body.a11y-large {
+  font-size: 1.2rem;
+}
+body.a11y-large h1 { font-size: 2.5rem; }
+body.a11y-large h2 { font-size: 2rem; }
+body.a11y-large h3 { font-size: 1.6rem; }
+body.a11y-large p, body.a11y-large span, body.a11y-large li { font-size: 1.2rem; }
+body.a11y-large button { font-size: 1.15rem; padding: 0.85rem 1.5rem; }
+
+body.a11y-xl {
+  font-size: 1.45rem;
+}
+body.a11y-xl h1 { font-size: 3rem; }
+body.a11y-xl h2 { font-size: 2.4rem; }
+body.a11y-xl h3 { font-size: 1.9rem; }
+body.a11y-xl p, body.a11y-xl span, body.a11y-xl li { font-size: 1.45rem; }
+body.a11y-xl button { font-size: 1.35rem; padding: 1rem 1.75rem; }
+
+body.a11y-contrast {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+  --primary: oklch(0.2 0.2 260);
+  --primary-foreground: oklch(1 0 0);
+  --muted: oklch(0.9 0 0);
+  --muted-foreground: oklch(0.2 0 0);
+  --border: oklch(0 0 0);
+}
+
+body.a11y-contrast.dark {
+  --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.08 0 0);
+  --card-foreground: oklch(1 0 0);
+  --primary: oklch(0.85 0.2 90);
+  --primary-foreground: oklch(0 0 0);
+  --muted-foreground: oklch(0.85 0 0);
+  --border: oklch(0.5 0 0);
+}
+
+body.a11y-simple .decorative,
+body.a11y-simple .particles,
+body.a11y-simple .mesh-gradient {
+  display: none !important;
+}
+
+/* ========================
+   Custom Animations
+   ======================== */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes danger-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.15); }
+  50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.25); }
+}
+
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-scan-sweep { animation: scan-sweep 2s ease-in-out infinite; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+.animate-danger-pulse { animation: danger-pulse 2s ease-in-out infinite; }
+.animate-typing-cursor { animation: typing-cursor 0.8s infinite; }
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Reduce animation intensity on mobile for performance */
+@media (max-width: 768px) {
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  .mesh-gradient::before {
+    width: 300px !important;
+    height: 300px !important;
+  }
+  .mesh-gradient::after {
+    width: 250px !important;
+    height: 250px !important;
+  }
+}
+
+/* ========================
+   Glassmorphism Utilities
+   ======================== */
+.glass {
+  background: rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+
+.dark .glass {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border);
+}
+
+.dark .glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ========================
+   Mesh Gradient Background
+   ======================== */
+.mesh-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mesh-gradient::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08), transparent 70%);
+  top: -200px;
+  right: -200px;
+  animation: float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.mesh-gradient::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  animation: float 10s ease-in-out infinite reverse;
+  will-change: transform;
+}
+
+/* ========================
+   Risk Level Glow Effects
+   ======================== */
+.risk-safe { box-shadow: 0 0 30px rgba(16, 185, 129, 0.2); }
+.risk-suspicious { box-shadow: 0 0 30px rgba(245, 158, 11, 0.2); }
+.risk-dangerous { box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+
+/* ========================
+   Scrollbar Styling
+   ======================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hide scrollbar on mobile for cleaner look */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+}
+
+/* ========================
+   Mobile Bottom Nav Safe Area
+   ======================== */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .mobile-nav-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+.dark .mesh-gradient::before {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12), transparent 70%);
+}
+.dark .mesh-gradient::after {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.08), transparent 70%);
+}
