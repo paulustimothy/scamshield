@@ -91,7 +91,6 @@ export interface ScanContext {
   originalContent: string;
   riskLevel: RiskLevel;
   scamProbability: number;
-  confidenceScore: number;
   scamTypes: string[];
   suspiciousPhrases: SuspiciousPhrase[];
   heatMeter: HeatMeterData;

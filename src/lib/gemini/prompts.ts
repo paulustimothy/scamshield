@@ -93,8 +93,18 @@ GAYA PENJELASAN:
 - Jika input berupa teks acak yang tidak bermakna (gibberish, contoh: "asdasdasd"), JANGAN mencoba menganalisisnya. Kembalikan riskLevel "aman", scamProbability 0, dan berikan simpleExplanation bahwa "Input teks tidak dapat dipahami atau tidak bermakna."
 - PENTING UNTUK explanation: Penjelasan (field 'explanation') HARUS SINGKAT DAN PADAT (1-2 paragraf saja). Berikan analisis yang langsung pada intinya agar pengguna cepat paham. Hindari penjelasan yang terlalu bertele-tele.
 
-Untuk simpleExplanation, gunakan bahasa yang sangat sederhana seperti menjelaskan ke orang tua yang tidak mengerti teknologi. Gunakan analogi sehari-hari.
-Jika pesan aman, katakan dengan jelas: "Pesan ini kemungkinan aman dan tidak perlu dikhawatirkan."`;
+Untuk simpleExplanation, gunakan bahasa yang sangat sederhana seperti menjelaskan ke orang tua yang tidak mengerti teknologi. WAJIB gunakan analogi sehari-hari yang konkret.
+
+CONTOH simpleExplanation yang BAIK:
+- "Ini seperti ada orang asing yang mengetuk pintu rumah dan mengaku dari PLN, lalu minta Anda memberikan kunci rumah. Orang PLN asli tidak akan pernah minta kunci rumah Anda."
+- "Bayangkan ada orang yang bilang Anda menang lotere, padahal Anda tidak pernah beli tiket lotere. Masuk akal nggak? Nah, pesan ini sama saja."
+- "Ini seperti ada toko yang menjual iPhone baru seharga Rp 100 ribu — terlalu murah untuk jadi kenyataan. Kalau kedengarannya terlalu bagus, biasanya memang tidak benar."
+
+CONTOH simpleExplanation yang BURUK (jangan seperti ini):
+- "Pesan ini mengandung beberapa indikator penipuan." (terlalu teknis, tidak ada analogi)
+- "Terdapat pola manipulasi urgensi dan otoritas." (jargon, tidak mudah dipahami)
+
+Jika pesan aman, katakan dengan jelas dan menenangkan: "Pesan ini kemungkinan aman dan tidak perlu dikhawatirkan. Seperti surat resmi dari kantor pos — tidak ada yang mencurigakan."`;
 
 export const SCAM_ANALYSIS_JSON_SCHEMA = {
   type: "object" as const,
@@ -268,11 +278,18 @@ export function MULTI_EVIDENCE_PROMPT(evidenceSections: string[], evidenceCount:
 
 INSTRUKSI KHUSUS MULTI-EVIDENCE:
 1. Silangkan data dari SEMUA bukti. Contoh: Cocokkan nomor rekening di teks dengan nama di screenshot, atau bandingkan informasi di URL dengan klaim di pesan teks.
-2. Cari POLA yang KONSISTEN di antara bukti — jika beberapa bukti menunjukkan pola manipulasi yang sama, tingkatkan confidenceScore.
+2. Cari POLA yang KONSISTEN di antara bukti — jika beberapa bukti menunjukkan pola manipulasi yang sama, itu memperkuat analisis.
 3. Cari KONTRADIKSI antar bukti — jika ada ketidaksesuaian, ini bisa menjadi indikator kuat penipuan.
 4. Jika ada gambar, ekstrak teksnya dan cocokkan dengan bukti lain.
 5. Jika ada audio, transkripsi dan cocokkan klaim verbal dengan bukti tertulis.
 6. Berikan analisis yang HOLISTIK, bukan analisis terpisah per bukti.
+
+ATURAN ANTI-HALUSINASI (SANGAT PENTING):
+- JANGAN mengarang hubungan antar bukti yang tidak ada. Jika bukti-bukti TIDAK memiliki hubungan yang jelas, KATAKAN SECARA JUJUR: "Bukti-bukti ini tampaknya tidak saling terhubung."
+- HANYA klaim hubungan antar bukti jika ada data KONKRET yang cocok (misalnya: nomor yang sama muncul di dua bukti, nama yang sama disebutkan di teks dan gambar).
+- Jika satu bukti aman dan satu bukti berbahaya, JANGAN menaikkan skor keseluruhan hanya karena ada banyak bukti. Analisis masing-masing secara proporsional.
+- Jangan mengatakan "pola konsisten terdeteksi" kecuali kamu bisa menyebutkan SECARA SPESIFIK pola apa yang konsisten dan di bukti mana.
+- Lebih baik jujur mengatakan "tidak cukup bukti untuk menghubungkan" daripada mengarang koneksi.
 
 BUKTI YANG DIANALISIS:
 ---
@@ -280,7 +297,7 @@ ${evidenceSections.join('\n\n')}
 ---
 
 Evaluasi dengan saksama:
-1. Apakah ada pola yang konsisten di berbagai bukti?
+1. Apakah ada pola yang konsisten di berbagai bukti? (Sebutkan secara spesifik jika ada)
 2. Apakah informasi antar bukti saling mendukung atau bertentangan?
 3. Berapa banyak red flags yang benar-benar ada di keseluruhan bukti?
 4. Apa saja indikator aman (safeIndicators)?

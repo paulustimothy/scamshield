@@ -35,7 +35,6 @@ export default function EmergencyPage() {
           originalContent: scanData.originalContent || '',
           riskLevel: scanData.result.riskLevel,
           scamProbability: scanData.result.scamProbability,
-          confidenceScore: scanData.result.confidenceScore,
           scamTypes: scanData.result.scamTypes,
           suspiciousPhrases: scanData.result.suspiciousPhrases,
           heatMeter: scanData.result.heatMeter,
@@ -70,6 +69,17 @@ export default function EmergencyPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-6 sm:py-8">
       <div className="max-w-lg w-full space-y-6 sm:space-y-8">
+        {/* Back button */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+          >
+            <span>←</span>
+            <span>Kembali</span>
+          </button>
+        </motion.div>
+
         <motion.div className="text-center space-y-3 sm:space-y-4" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}>
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center text-4xl sm:text-5xl">⚠️</div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-400">Langkah Perlindungan</h1>
@@ -98,6 +108,29 @@ export default function EmergencyPage() {
             </motion.div>
           ))}
         </div>
+
+        {/* Navigation buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="flex gap-3 pt-2"
+        >
+          <Button
+            onClick={() => router.push('/scanner/result')}
+            variant="outline"
+            className="flex-1 h-11 text-xs sm:text-sm border-border hover:bg-muted rounded-xl"
+          >
+            ← Kembali ke Hasil
+          </Button>
+          <Button
+            onClick={() => { sessionStorage.removeItem('scamshield_scan_result'); router.push('/scanner'); }}
+            variant="outline"
+            className="flex-1 h-11 text-xs sm:text-sm border-border hover:bg-muted rounded-xl"
+          >
+            🔍 Scan Baru
+          </Button>
+        </motion.div>
       </div>
     </main>
   );

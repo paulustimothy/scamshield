@@ -84,7 +84,6 @@ export default function ResultPage() {
       originalContent: scanData.originalContent,
       riskLevel: scanData.result.riskLevel,
       scamProbability: scanData.result.scamProbability,
-      confidenceScore: scanData.result.confidenceScore,
       scamTypes: scanData.result.scamTypes,
       suspiciousPhrases: scanData.result.suspiciousPhrases,
       heatMeter: scanData.result.heatMeter,
@@ -161,7 +160,7 @@ export default function ResultPage() {
               {scanData.isFallback && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
                   className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs sm:text-sm text-amber-400 text-center">
-                  ⚠️ Analisis ini menggunakan pemeriksaan otomatis (bukan AI). Untuk hasil lebih akurat, coba lagi nanti.
+                  ⚠️ Sistem AI sedang tidak tersedia. Hasil ini menggunakan pemeriksaan otomatis dasar — coba lagi nanti untuk analisis AI yang lengkap.
                 </motion.div>
               )}
 
@@ -170,14 +169,6 @@ export default function ResultPage() {
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
                   className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs sm:text-sm text-blue-400 text-center">
                   🎙️ Kualitas analisis audio sangat bergantung pada kejelasan rekaman.
-                </motion.div>
-              )}
-
-              {/* Low confidence banner */}
-              {result.confidenceScore < 60 && !scanData.isFallback && (
-                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                  className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs sm:text-sm text-amber-400 text-center">
-                  ⚠️ <strong>AI Kurang Yakin:</strong> Konteks yang diberikan terbatas, harap tetap berhati-hati.
                 </motion.div>
               )}
 
@@ -212,6 +203,20 @@ export default function ResultPage() {
                   </div>
                 )}
               </motion.div>
+
+              {/* Suspicious Phrase Highlights — above the fold */}
+              {originalContent !== '[Screenshot]' && originalContent !== '[Audio Recording]' && result.suspiciousPhrases?.length > 0 && (
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🔍</span>
+                      <h3 className="font-semibold text-sm sm:text-base">Frasa yang Perlu Diperhatikan</h3>
+                      <span className="text-xs text-muted-foreground">({result.suspiciousPhrases.length} terdeteksi)</span>
+                    </div>
+                    <SuspiciousHighlight originalText={originalContent} phrases={result.suspiciousPhrases} />
+                  </div>
+                </motion.div>
+              )}
 
               {/* ==========================================
                   PSYCHOLOGY SECTION — Elevated to #2
@@ -307,22 +312,14 @@ export default function ResultPage() {
                     </div>
                   </CollapsibleSection>
                 )}
-                {originalContent !== '[Screenshot]' && originalContent !== '[Audio Recording]' && result.suspiciousPhrases?.length > 0 && (
-                  <CollapsibleSection
-                    icon="🔍"
-                    title="Frasa yang Perlu Diperhatikan"
-                    summary={`${result.suspiciousPhrases.length} frasa terdeteksi`}
-                  >
-                    <SuspiciousHighlight originalText={originalContent} phrases={result.suspiciousPhrases} />
-                  </CollapsibleSection>
-                )}
+
                 
               </motion.div>
 
-              {/* Confidence footnote */}
+              {/* Disclaimer footnote */}
               <div className="text-center pt-2">
                 <p className="text-[10px] text-muted-foreground/60">
-                  Tingkat keyakinan AI: {result.confidenceScore}% • Hasil bersifat edukatif, bukan keputusan hukum
+                  Hasil bersifat edukatif, bukan keputusan hukum
                 </p>
               </div>
             </div>
