@@ -46,13 +46,6 @@ ATURAN riskLevel:
 - "mencurigakan": scamProbability 36-70
 - "berbahaya": scamProbability 71-100
 
-SCORING HEATMETER (harus proporsional dengan bukti yang ada):
-- urgencyManipulation: seberapa besar tekanan urgensi YANG TIDAK WAJAR (0-100). Tenggat waktu normal = rendah.
-- fearManipulation: seberapa besar manipulasi ketakutan (0-100). Peringatan keamanan sah = rendah.
-- fakeAuthority: seberapa besar penyalahgunaan otoritas (0-100). Komunikasi resmi terverifikasi = 0.
-- financialRisk: seberapa besar risiko kerugian finansial (0-100). Tanpa permintaan uang = rendah.
-- impersonation: seberapa besar upaya impersonasi (0-100). Pengirim terverifikasi = 0.
-
 JENIS PENIPUAN YANG HARUS DIDETEKSI:
 1. Penipuan paket Shopee/Tokopedia palsu (link tracking palsu)
 2. Penipuan QRIS (kode pembayaran palsu)
@@ -112,17 +105,6 @@ export const SCAM_ANALYSIS_JSON_SCHEMA = {
     scamProbability: { type: "number" as const, description: "Probabilitas penipuan 0-100, dikalibrasi sesuai bukti" },
     riskLevel: { type: "string" as const, enum: ["aman", "mencurigakan", "berbahaya"], description: "Tingkat risiko berdasarkan kalibrasi skor" },
     confidenceScore: { type: "number" as const, description: "Tingkat keyakinan AI 0-100" },
-    heatMeter: {
-      type: "object" as const,
-      properties: {
-        urgencyManipulation: { type: "number" as const },
-        fearManipulation: { type: "number" as const },
-        fakeAuthority: { type: "number" as const },
-        financialRisk: { type: "number" as const },
-        impersonation: { type: "number" as const },
-      },
-      required: ["urgencyManipulation", "fearManipulation", "fakeAuthority", "financialRisk", "impersonation"],
-    },
     suspiciousPhrases: {
       type: "array" as const,
       items: {
@@ -153,7 +135,7 @@ export const SCAM_ANALYSIS_JSON_SCHEMA = {
     },
   },
   required: [
-    "scamProbability", "riskLevel", "confidenceScore", "heatMeter",
+    "scamProbability", "riskLevel", "confidenceScore",
     "scamTypes", "explanation", "simpleExplanation",
     "recommendedActions", "redFlags"
   ],

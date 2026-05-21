@@ -6,14 +6,6 @@ export type RiskLevel = 'aman' | 'mencurigakan' | 'berbahaya';
 export type ScanType = 'text' | 'url' | 'email' | 'image' | 'audio';
 export type Severity = 'low' | 'medium' | 'high';
 
-export interface HeatMeterData {
-  urgencyManipulation: number;
-  fearManipulation: number;
-  fakeAuthority: number;
-  financialRisk: number;
-  impersonation: number;
-}
-
 export interface SuspiciousPhrase {
   text: string;
   reason: string;
@@ -40,7 +32,6 @@ export interface ScamAnalysisResult {
   scamProbability: number;
   riskLevel: RiskLevel;
   confidenceScore: number;
-  heatMeter: HeatMeterData;
   suspiciousPhrases: SuspiciousPhrase[];
   scamTypes: string[];
   explanation: string;
@@ -93,7 +84,6 @@ export interface ScanContext {
   scamProbability: number;
   scamTypes: string[];
   suspiciousPhrases: SuspiciousPhrase[];
-  heatMeter: HeatMeterData;
   explanation: string;
   simpleExplanation: string;
   recommendedActions: string[];

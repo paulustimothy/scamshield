@@ -38,9 +38,6 @@ function parseAIResponse(text: string): ScamAnalysisResult | null {
     if (!Array.isArray(parsed.recommendedActions)) parsed.recommendedActions = [];
     if (typeof parsed.confidenceScore !== 'number') parsed.confidenceScore = 70;
     if (typeof parsed.simpleExplanation !== 'string') parsed.simpleExplanation = parsed.explanation;
-    if (!parsed.heatMeter) {
-      parsed.heatMeter = { urgencyManipulation: 0, fearManipulation: 0, fakeAuthority: 0, financialRisk: 0, impersonation: 0 };
-    }
     return parsed as ScamAnalysisResult;
   } catch {
     console.error('Failed to parse AI response JSON');
@@ -239,11 +236,6 @@ export async function POST(request: NextRequest) {
     // =====================
     result.scamProbability = Math.max(0, Math.min(100, result.scamProbability));
     result.confidenceScore = Math.max(0, Math.min(100, result.confidenceScore));
-    if (result.heatMeter) {
-      for (const key of Object.keys(result.heatMeter) as (keyof typeof result.heatMeter)[]) {
-        result.heatMeter[key] = Math.max(0, Math.min(100, result.heatMeter[key]));
-      }
-    }
     if (!result.safeIndicators) result.safeIndicators = [];
 
     // Risk level consistency

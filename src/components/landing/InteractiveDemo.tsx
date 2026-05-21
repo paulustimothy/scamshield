@@ -17,7 +17,6 @@ const DEMO_RESULTS: ScamAnalysisResult[] = [
       { text: 'http://shopee-winner.xyz/claim', reason: 'URL mencurigakan dan tidak resmi', severity: 'high' },
       { text: 'Kirim kode OTP', reason: 'Permintaan data sensitif yang tidak wajar', severity: 'high' }
     ],
-    heatMeter: { urgencyManipulation: 90, fearManipulation: 20, fakeAuthority: 85, financialRisk: 95, impersonation: 80 },
     explanation: 'Pesan ini adalah penipuan klasik berkedok undian berhadiah. Pengirim menjanjikan uang dalam jumlah besar dan mendesak Anda (urgensi) untuk mengklik link palsu serta memberikan OTP.',
     simpleExplanation: 'Ini penipuan! Jangan klik linknya dan JANGAN PERNAH berikan kode OTP kepada siapa pun.',
     recommendedActions: ['Abaikan pesan ini', 'Blokir nomor pengirim', 'Jangan klik link yang diberikan'],
@@ -33,7 +32,6 @@ const DEMO_RESULTS: ScamAnalysisResult[] = [
       { text: 'gaji Rp 500.000-2.000.000/hari', reason: 'Janji penghasilan tidak realistis', severity: 'high' },
       { text: 'Modal awal hanya Rp 100.000', reason: 'Permintaan uang di muka untuk pekerjaan', severity: 'high' }
     ],
-    heatMeter: { urgencyManipulation: 40, fearManipulation: 10, fakeAuthority: 70, financialRisk: 90, impersonation: 60 },
     explanation: 'Pesan ini merupakan modus penipuan lowongan kerja. Penipu menjanjikan pekerjaan mudah dengan gaji sangat tinggi, namun meminta korban untuk mentransfer "modal awal".',
     simpleExplanation: 'Ini penipuan lowongan kerja. Pekerjaan asli tidak pernah meminta Anda mentransfer uang (modal) terlebih dahulu.',
     recommendedActions: ['Jangan mentransfer uang', 'Abaikan pesan dan blokir nomor', 'Cari lowongan kerja di portal resmi'],
@@ -49,7 +47,6 @@ const DEMO_RESULTS: ScamAnalysisResult[] = [
       { text: 'DIBLOKIR dalam 1 jam', reason: 'Manipulasi rasa takut dan urgensi ekstrim', severity: 'high' },
       { text: 'PIN ATM, dan kode OTP', reason: 'Permintaan informasi sangat rahasia', severity: 'high' }
     ],
-    heatMeter: { urgencyManipulation: 95, fearManipulation: 90, fakeAuthority: 95, financialRisk: 85, impersonation: 95 },
     explanation: 'Pesan ini adalah upaya pencurian data (phishing). Pengirim menyamar sebagai pihak bank dan menggunakan ancaman pemblokiran akun untuk memanipulasi korban agar menyerahkan data rahasia seperti PIN dan OTP.',
     simpleExplanation: 'Penipu menyamar sebagai Bank BCA untuk mencuri data Anda. Bank TIDAK PERNAH meminta PIN atau OTP via WhatsApp atau pesan biasa.',
     recommendedActions: ['Jangan balas pesan ini', 'Jangan berikan data apapun', 'Blokir pengirim', 'Hubungi HaloBCA resmi jika ragu'],

@@ -86,7 +86,6 @@ export default function ResultPage() {
       scamProbability: scanData.result.scamProbability,
       scamTypes: scanData.result.scamTypes,
       suspiciousPhrases: scanData.result.suspiciousPhrases,
-      heatMeter: scanData.result.heatMeter,
       explanation: scanData.result.explanation,
       simpleExplanation: scanData.result.simpleExplanation,
       recommendedActions: scanData.result.recommendedActions,

@@ -37,7 +37,6 @@ export default function EmergencyPage() {
           scamProbability: scanData.result.scamProbability,
           scamTypes: scanData.result.scamTypes,
           suspiciousPhrases: scanData.result.suspiciousPhrases,
-          heatMeter: scanData.result.heatMeter,
           explanation: scanData.result.explanation,
           simpleExplanation: scanData.result.simpleExplanation,
           recommendedActions: scanData.result.recommendedActions,

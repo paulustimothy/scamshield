@@ -125,13 +125,6 @@ export function getFallbackScanResult(content: string, type: 'text' | 'url' | 'e
     scamProbability,
     riskLevel,
     confidenceScore: 50, // Lower confidence for fallback — be honest
-    heatMeter: {
-      urgencyManipulation: Math.round(urgency),
-      fearManipulation: Math.round(fear),
-      fakeAuthority: Math.round(authority),
-      financialRisk: Math.round(financial),
-      impersonation: Math.round(impersonation),
-    },
     suspiciousPhrases: suspiciousPhrases.slice(0, 5),
     scamTypes: detectedTypes.slice(0, 4),
     explanation: riskLevel === 'aman'
@@ -166,13 +159,6 @@ export function getFallbackImageResult(): ScamAnalysisResult {
     scamProbability: 0,
     riskLevel: 'aman',
     confidenceScore: 0,
-    heatMeter: {
-      urgencyManipulation: 0,
-      fearManipulation: 0,
-      fakeAuthority: 0,
-      financialRisk: 0,
-      impersonation: 0,
-    },
     suspiciousPhrases: [],
     scamTypes: [],
     explanation: 'Sistem AI sedang tidak tersedia sehingga gambar ini belum bisa dianalisis. Hasil ini bukan penilaian terhadap konten gambar — coba analisis ulang saat sistem kembali normal.',
@@ -197,13 +183,6 @@ export function getFallbackAudioResult(): ScamAnalysisResult & { transcript: str
     scamProbability: 0,
     riskLevel: 'aman',
     confidenceScore: 0,
-    heatMeter: {
-      urgencyManipulation: 0,
-      fearManipulation: 0,
-      fakeAuthority: 0,
-      financialRisk: 0,
-      impersonation: 0,
-    },
     suspiciousPhrases: [],
     scamTypes: [],
     explanation: 'Sistem AI sedang tidak tersedia sehingga audio ini belum bisa dianalisis. Hasil ini bukan penilaian terhadap konten audio — coba analisis ulang saat sistem kembali normal.',
