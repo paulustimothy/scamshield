@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/shared/Navbar';
+import MobileHeader from '@/components/shared/MobileHeader';
 import MobileNav from '@/components/shared/MobileNav';
 import { SCAM_PATTERNS } from '@/lib/scam-patterns';
 
@@ -13,15 +14,7 @@ export default function LibraryPage() {
   return (
     <>
       <Navbar />
-      {/* Mobile header */}
-      <header className="md:hidden sticky top-0 z-40 glass-strong border-b border-border">
-        <div className="px-4 py-3 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-foreground font-bold text-sm shrink-0">
-            S
-          </div>
-          <span className="font-semibold text-base tracking-tight">ScamShield</span>
-        </div>
-      </header>
+      <MobileHeader />
 
       <main className="flex-1 px-4 sm:px-6 py-4 sm:py-6 pb-28 md:pb-6">
         <div className="max-w-3xl mx-auto">
@@ -53,7 +46,7 @@ export default function LibraryPage() {
                   <div
                     className={`p-3.5 sm:p-4 rounded-2xl border transition-all ${
                       expandedId === pattern.id
-                        ? 'bg-muted/50 border-white/[0.12]'
+                        ? 'bg-muted/50 border-primary/20'
                         : 'bg-card border-border hover:bg-muted/50'
                     }`}
                   >

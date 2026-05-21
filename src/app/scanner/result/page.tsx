@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/shared/Navbar';
 import MobileNav from '@/components/shared/MobileNav';
 import RiskGauge from '@/components/scanner/RiskGauge';
-import ScamHeatMeter from '@/components/scanner/ScamHeatMeter';
 import SuspiciousHighlight from '@/components/scanner/SuspiciousHighlight';
 import ExplainSimple from '@/components/scanner/ExplainSimple';
 import WhyPeopleFallForThis from '@/components/scanner/WhyPeopleFallForThis';
@@ -17,7 +16,6 @@ import TranscriptViewer from '@/components/scanner/TranscriptViewer';
 import EvidenceSummary from '@/components/scanner/EvidenceSummary';
 import CollapsibleSection from '@/components/scanner/CollapsibleSection';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
-import { toPng } from 'html-to-image';
 import type { ScamAnalysisResult, ScanContext } from '@/lib/types';
 
 interface ScanData {
@@ -44,25 +42,37 @@ export default function ResultPage() {
   }, []);
 
   const handleShareReport = async () => {
-    const reportElement = document.getElementById('report-content');
-    if (!reportElement) return;
+    if (!scanData) return;
 
+    const { result } = scanData;
+    const shareText = `🛡️ ScamShield AI — Hasil Analisis\n\nTingkat Risiko: ${result.scamProbability}% (${result.riskLevel})\nKategori: ${result.scamTypes.join(', ')}\n\n${result.simpleExplanation}\n\nScan pesan mencurigakan di ScamShield.`;
+
+    // Try Web Share API first (mobile)
+    if (navigator.share) {
+      try {
+        setIsSharing(true);
+        await navigator.share({
+          title: 'ScamShield — Hasil Analisis',
+          text: shareText,
+        });
+      } catch (err) {
+        // User cancelled or share failed — try clipboard fallback
+        if ((err as Error).name !== 'AbortError') {
+          await navigator.clipboard?.writeText(shareText);
+        }
+      } finally {
+        setIsSharing(false);
+      }
+      return;
+    }
+
+    // Fallback: copy to clipboard
     try {
       setIsSharing(true);
-      await new Promise(r => setTimeout(r, 100));
-      
-      const dataUrl = await toPng(reportElement, {
-        backgroundColor: '#000000',
-        pixelRatio: 2,
-      });
-      
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = `ScamShield_Report.png`;
-      link.click();
-    } catch (err) {
-      console.error('Failed to generate report', err);
-    } finally {
+      await navigator.clipboard.writeText(shareText);
+      // Brief visual feedback
+      setTimeout(() => setIsSharing(false), 1500);
+    } catch {
       setIsSharing(false);
     }
   };
@@ -102,7 +112,7 @@ export default function ResultPage() {
               <p className="font-medium text-foreground/80 mb-1">Belum ada hasil analisis</p>
               <p className="text-sm text-muted-foreground">Scan pesan atau screenshot terlebih dahulu</p>
             </div>
-            <Button onClick={() => router.push('/scanner')} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-foreground border-0">
+            <Button onClick={() => router.push('/scanner')} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white border-0">
               🔍 Mulai Scan
             </Button>
           </div>
@@ -121,12 +131,6 @@ export default function ResultPage() {
     berbahaya: 'Analisis selesai — pesan ini memiliki pola yang sering ditemukan pada penipuan',
   }[result.riskLevel];
 
-  // Compute heat meter average for collapsed summary
-  const heatAvg = result.heatMeter
-    ? Math.round(Object.values(result.heatMeter).reduce((a, b) => a + b, 0) / Object.keys(result.heatMeter).length)
-    : 0;
-  const heatSummary = heatAvg <= 25 ? 'Rendah' : heatAvg <= 50 ? 'Sedang' : heatAvg <= 75 ? 'Tinggi' : 'Sangat Tinggi';
-
   return (
     <>
       <Navbar />
@@ -142,12 +146,12 @@ export default function ResultPage() {
               size="sm"
               className="text-xs bg-muted border-border hover:bg-border"
             >
-              {isSharing ? 'Memproses...' : '📤 Bagikan Laporan'}
+              {isSharing ? '✅ Tersalin!' : '📤 Bagikan Laporan'}
             </Button>
           </div>
 
           <ErrorBoundary>
-            <div id="report-content" className="space-y-4 sm:space-y-5 bg-background rounded-3xl p-1 sm:p-4">
+            <div className="space-y-4 sm:space-y-5">
               
               {/* ==========================================
                   ABOVE THE FOLD — Always visible
@@ -164,7 +168,7 @@ export default function ResultPage() {
               {/* Audio disclaimer */}
               {hasAudio && !scanData.isFallback && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                  className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs sm:text-sm text-blue-300 text-center">
+                  className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs sm:text-sm text-blue-400 text-center">
                   🎙️ Kualitas analisis audio sangat bergantung pada kejelasan rekaman.
                 </motion.div>
               )}
@@ -191,11 +195,11 @@ export default function ResultPage() {
                 )}
               </motion.div>
 
-              {/* Risk Gauge + Scam Type badges merged */}
+              {/* Risk Gauge + Scam Type badges */}
               <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}
                 className="flex flex-col items-center gap-3">
                 <RiskGauge value={result.scamProbability} riskLevel={result.riskLevel} size={160} />
-                {/* Scam type badges merged under gauge */}
+                {/* Scam type badges */}
                 {result.scamTypes.length > 0 && (
                   <div className="flex flex-wrap justify-center gap-1.5">
                     {result.scamTypes.map((type, i) => (
@@ -280,15 +284,6 @@ export default function ResultPage() {
                   </CollapsibleSection>
                 )}
 
-                {/* Heat Meter */}
-                <CollapsibleSection
-                  icon="🌡️"
-                  title="Pola Manipulasi"
-                  summary={`Rata-rata: ${heatAvg}% — ${heatSummary}`}
-                >
-                  <ScamHeatMeter data={result.heatMeter} />
-                </CollapsibleSection>
-
                 {/* Audio Transcript */}
                 {result.transcript && (scanData.evidenceCounts ? scanData.evidenceCounts.audio > 0 : scanData.type === 'audio') && (
                   <CollapsibleSection
@@ -323,15 +318,22 @@ export default function ResultPage() {
                 )}
                 
               </motion.div>
+
+              {/* Confidence footnote */}
+              <div className="text-center pt-2">
+                <p className="text-[10px] text-muted-foreground/60">
+                  Tingkat keyakinan AI: {result.confidenceScore}% • Hasil bersifat edukatif, bukan keputusan hukum
+                </p>
+              </div>
             </div>
           </ErrorBoundary>
 
-          {/* Action Buttons (Non-floating, in standard document flow) */}
+          {/* Action Buttons */}
           <div className="w-full max-w-2xl mx-auto pt-6">
             <div className="space-y-3 md:space-y-4">
               {result.riskLevel === 'berbahaya' && (
                 <Button onClick={() => router.push('/emergency')}
-                  className="w-full h-11 sm:h-12 md:h-14 text-sm md:text-base font-semibold bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-foreground border-0 shadow-lg shadow-red-500/20 rounded-xl md:rounded-2xl">
+                  className="w-full h-11 sm:h-12 md:h-14 text-sm md:text-base font-semibold bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white border-0 shadow-lg shadow-red-500/20 rounded-xl md:rounded-2xl">
                   🚨 Langkah Perlindungan
                 </Button>
               )}
@@ -341,7 +343,7 @@ export default function ResultPage() {
                   🔍 Scan Baru
                 </Button>
                 <Button onClick={handleAskAI}
-                  className="flex-1 h-10 sm:h-11 md:h-13 text-xs sm:text-sm md:text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-foreground border-0 rounded-xl md:rounded-2xl">
+                  className="flex-1 h-10 sm:h-11 md:h-13 text-xs sm:text-sm md:text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white border-0 rounded-xl md:rounded-2xl">
                   💬 Tanya AI
                 </Button>
               </div>

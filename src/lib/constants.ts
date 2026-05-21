@@ -19,14 +19,6 @@ export const RISK_LABELS = {
   berbahaya: '🔴 Berbahaya',
 } as const;
 
-// Heat Meter Labels
-export const HEAT_METER_LABELS = {
-  urgencyManipulation: { label: 'Manipulasi Urgensi', icon: '🕐', description: 'Tekanan untuk bertindak cepat' },
-  fearManipulation: { label: 'Manipulasi Ketakutan', icon: '😰', description: 'Menakut-nakuti korban' },
-  fakeAuthority: { label: 'Otoritas Palsu', icon: '👔', description: 'Berpura-pura sebagai pihak resmi' },
-  financialRisk: { label: 'Risiko Finansial', icon: '💰', description: 'Potensi kerugian uang' },
-  impersonation: { label: 'Impersonasi', icon: '🎭', description: 'Menyamar sebagai orang lain' },
-} as const;
 
 // Navigation Items
 export const NAV_ITEMS = [

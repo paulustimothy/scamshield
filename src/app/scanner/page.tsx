@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import Navbar from '@/components/shared/Navbar';
+import MobileHeader from '@/components/shared/MobileHeader';
 import MobileNav from '@/components/shared/MobileNav';
 import ScanAnimation from '@/components/scanner/ScanAnimation';
 import VoiceUpload from '@/components/scanner/VoiceUpload';
@@ -182,6 +183,16 @@ export default function ScannerPage() {
       return;
     }
 
+    // Gibberish pre-validation: text evidence must have at least 2 words
+    const textEvidence = finalEvidence.find(ev => ev.type === 'text');
+    if (textEvidence && textEvidence.text) {
+      const wordCount = textEvidence.text.trim().split(/\s+/).length;
+      if (wordCount < 2) {
+        setError('Teks terlalu singkat. Masukkan minimal satu kalimat untuk analisis yang akurat.');
+        return;
+      }
+    }
+
     setIsScanning(true);
     setError('');
     startCooldown();
@@ -287,12 +298,7 @@ export default function ScannerPage() {
   return (
     <>
       <Navbar />
-      <header className="md:hidden sticky top-0 z-40 glass-strong border-b border-border">
-        <div className="px-4 py-3 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-foreground font-bold text-sm shrink-0">S</div>
-          <span className="font-semibold text-base tracking-tight">ScamShield</span>
-        </div>
-      </header>
+      <MobileHeader />
 
       <main className="flex-1 px-4 sm:px-6 py-4 sm:py-6 pb-28 md:pb-6">
         <div className="max-w-2xl mx-auto">
@@ -451,7 +457,7 @@ export default function ScannerPage() {
                       className="w-full h-12 sm:h-14 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-foreground border-0 shadow-xl shadow-blue-500/25 disabled:opacity-40 disabled:shadow-none active:scale-[0.98] transition-all">
                       {cooldown ? (
                         <span className="flex items-center gap-2">
-                          <motion.div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
+                          <motion.div className="w-4 h-4 border-2 border-foreground/30 border-t-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
                           Sedang memproses...
                         </span>
                       ) : '🛡️ Analisis dengan AI'}
@@ -485,7 +491,7 @@ export default function ScannerPage() {
                 className="w-full h-12 sm:h-14 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-foreground border-0 shadow-xl shadow-blue-500/25 disabled:opacity-40 disabled:shadow-none active:scale-[0.98] transition-all">
                 {cooldown ? (
                   <span className="flex items-center gap-2">
-                    <motion.div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
+                    <motion.div className="w-4 h-4 border-2 border-foreground/30 border-t-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
                     Sedang memproses...
                   </span>
                 ) : evidenceList.length > 1 ? (

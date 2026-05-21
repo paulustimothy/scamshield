@@ -69,7 +69,8 @@ export default function RiskGauge({ value, riskLevel, size = 160 }: RiskGaugePro
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="currentColor"
+            strokeOpacity="0.08"
             strokeWidth="7"
           />
           {/* Progress circle */}

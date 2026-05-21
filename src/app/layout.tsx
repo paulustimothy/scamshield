@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AccessibilityProvider } from "@/components/shared/AccessibilityProvider";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  variable: "--font-heading",
   subsets: ["latin"],
   display: "swap",
 });
@@ -55,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${outfit.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
         <AccessibilityProvider>

@@ -13,7 +13,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -196,7 +195,7 @@ img, video, svg, canvas {
 /* Hover-safe: only apply hover on devices that support it */
 @media (hover: hover) {
   .hover-safe:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--muted);
   }
 }
 
@@ -219,11 +218,11 @@ audio::-webkit-media-controls-panel {
 
 /* Empathy-focused content styling */
 .prose-calm {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted-foreground);
   line-height: 1.7;
 }
 .prose-calm strong {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--foreground);
 }
 
 /* ========================
@@ -429,11 +428,11 @@ body.a11y-simple .mesh-gradient {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--muted-foreground);
 }
 
 /* Hide scrollbar on mobile for cleaner look */

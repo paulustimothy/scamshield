@@ -10,7 +10,7 @@ export default function EmergencyPage() {
   const router = useRouter();
   const [result, setResult] = useState<ScamAnalysisResult | null>(null);
   const [originalContent, setOriginalContent] = useState<string>('');
-  const [actionsTaken, setActionsTaken] = useState<Set<string>>(new Set());
+  const [completedActions, setCompletedActions] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     try {
@@ -23,8 +23,7 @@ export default function EmergencyPage() {
     } catch { /* ignore */ }
   }, []);
 
-  const markAction = (a: string) => setActionsTaken(prev => new Set([...prev, a]));
-  const allDone = actionsTaken.size >= 2;
+  const markDone = (a: string) => setCompletedActions(prev => new Set([...prev, a]));
 
   const handleAskAI = () => {
     // Pass context to chat
@@ -58,32 +57,15 @@ export default function EmergencyPage() {
       : '';
     const msg = encodeURIComponent(`⚠️ *Peringatan Keamanan ScamShield* ⚠️\n\nPesan berikut terdeteksi mencurigakan/phishing:\n\n${preview}*Hasil Analisis:*\nTingkat Risiko: ${result?.scamProbability || 'Tinggi'}%\nKategori: ${(result?.scamTypes || []).join(', ')}\n\n*Penjelasan Singkat:*\n${result?.simpleExplanation || 'Hati-hati dengan pesan ini.'}\n\nJANGAN klik link atau berikan kode OTP. Selalu waspada! 🛡️`);
     window.open(`https://wa.me/?text=${msg}`, '_blank');
-    markAction('share');
+    markDone('share');
   };
 
   const actions = [
-    { id: 'block', icon: '🚫', title: 'Blokir Pengirim', desc: 'Blokir nomor/akun pengirim pesan ini', fn: () => markAction('block') },
-    { id: 'report', icon: '📢', title: 'Laporkan', desc: 'Lapor ke Patrolisiber', fn: () => { window.open('https://patrolisiber.id/submit-report/', '_blank'); markAction('report'); } },
+    { id: 'block', icon: '🚫', title: 'Blokir Pengirim', desc: 'Blokir nomor/akun pengirim pesan ini', fn: () => markDone('block') },
+    { id: 'report', icon: '📢', title: 'Laporkan', desc: 'Lapor ke Patrolisiber', fn: () => { window.open('https://patrolisiber.id/submit-report/', '_blank'); markDone('report'); } },
     { id: 'share', icon: '📤', title: 'Bagikan Peringatan', desc: 'Peringatkan keluarga via WhatsApp', fn: shareWA },
     { id: 'chat', icon: '💬', title: 'Tanya AI Assistant', desc: 'Dapatkan bantuan dari ScamShield AI', fn: handleAskAI },
   ];
-
-  if (allDone) {
-    return (
-      <main className="min-h-screen flex items-center justify-center px-4">
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-5 sm:space-y-6 max-w-sm mx-auto">
-          <motion.div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-4xl sm:text-5xl"
-            animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>✅</motion.div>
-          <h1 className="text-xl sm:text-2xl font-bold text-emerald-400">Langkah Perlindungan Diambil</h1>
-          <p className="text-sm text-muted-foreground">Anda telah mengambil langkah yang tepat. Tetap waspada dan jangan ragu untuk bertanya jika ada pesan mencurigakan lainnya.</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2 sm:pt-4">
-            <Button onClick={() => router.push('/scanner')} className="bg-gradient-to-r from-blue-600 to-cyan-600 text-foreground border-0 active:scale-[0.98]">🔍 Scan Baru</Button>
-            <Button onClick={() => router.push('/')} variant="outline" className="border-border active:scale-[0.98]">🏠 Beranda</Button>
-          </div>
-        </motion.div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-6 sm:py-8">
@@ -105,9 +87,9 @@ export default function EmergencyPage() {
         <div className="space-y-2.5 sm:space-y-3">
           {actions.map((action, i) => (
             <motion.div key={action.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.1 }}>
-              <Button onClick={action.fn} disabled={actionsTaken.has(action.id)} variant="ghost"
-                className={`w-full h-14 sm:h-16 text-sm sm:text-base justify-start gap-3 sm:gap-4 rounded-2xl active:scale-[0.98] ${actionsTaken.has(action.id) ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : 'bg-muted/50 border border-border text-foreground hover:bg-white/[0.08]'}`}>
-                <span className="text-xl sm:text-2xl shrink-0">{actionsTaken.has(action.id) ? '✅' : action.icon}</span>
+              <Button onClick={action.fn} variant="ghost"
+                className={`w-full h-14 sm:h-16 text-sm sm:text-base justify-start gap-3 sm:gap-4 rounded-2xl active:scale-[0.98] ${completedActions.has(action.id) ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : 'bg-muted/50 border border-border text-foreground hover:bg-muted'}`}>
+                <span className="text-xl sm:text-2xl shrink-0">{completedActions.has(action.id) ? '✅' : action.icon}</span>
                 <div className="text-left min-w-0">
                   <div className="font-semibold text-sm sm:text-base">{action.title}</div>
                   <div className="text-[10px] sm:text-xs text-muted-foreground truncate">{action.desc}</div>

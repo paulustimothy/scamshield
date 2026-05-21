@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/shared/Navbar';
+import MobileHeader from '@/components/shared/MobileHeader';
 import MobileNav from '@/components/shared/MobileNav';
 import { useAccessibility } from '@/components/shared/AccessibilityProvider';
 
@@ -25,15 +26,7 @@ export default function SettingsPage() {
   return (
     <>
       <Navbar />
-      {/* Mobile header */}
-      <header className="md:hidden sticky top-0 z-40 glass-strong border-b border-border">
-        <div className="px-4 py-3 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-foreground font-bold text-sm shrink-0">
-            S
-          </div>
-          <span className="font-semibold text-base tracking-tight">ScamShield</span>
-        </div>
-      </header>
+      <MobileHeader />
 
       <main className="flex-1 px-4 sm:px-6 py-4 sm:py-6 pb-28 md:pb-6">
         <div className="max-w-lg mx-auto space-y-6 sm:space-y-8">

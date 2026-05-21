@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { SAMPLE_SCAM_MESSAGES } from '@/lib/constants';
 import type { ScamAnalysisResult } from '@/lib/types';
 
-// Hardcoded mock results to avoid quota issues on the homepage demo
-const MOCK_RESULTS: ScamAnalysisResult[] = [
+// Hardcoded demo results — labeled transparently as examples, not live scans
+const DEMO_RESULTS: ScamAnalysisResult[] = [
   {
     riskLevel: 'berbahaya',
     scamProbability: 95,
@@ -73,24 +73,24 @@ export default function InteractiveDemo() {
     setIsAnalyzing(true);
     setResult(null);
 
-    // Mock API delay for effect
+    // Simulated delay for demo effect
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    setResult(MOCK_RESULTS[selectedIdx]);
+    setResult(DEMO_RESULTS[selectedIdx]);
     setIsAnalyzing(false);
   };
 
   return (
-    <div className="rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
-      <div className="flex flex-wrap gap-2 p-3 sm:p-4 border-b border-white/10 bg-black/20">
+    <div className="rounded-2xl bg-card border border-border overflow-hidden">
+      <div className="flex flex-wrap gap-2 p-3 sm:p-4 border-b border-border bg-muted/50">
         {SAMPLE_SCAM_MESSAGES.map((msg, i) => (
           <button
             key={i}
             onClick={() => handleSelect(i)}
             className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full transition-all whitespace-nowrap active:scale-95 ${
               selectedIdx === i
-                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
-                : 'bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground'
+                ? 'bg-primary text-primary-foreground shadow-lg'
+                : 'bg-muted text-muted-foreground hover:bg-border hover:text-foreground'
             }`}
           >
             {msg.label}
@@ -98,24 +98,24 @@ export default function InteractiveDemo() {
         ))}
       </div>
 
-      <div className="p-4 sm:p-6 sm:p-8 space-y-6 sm:space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         <div className="relative">
-          <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 blur-xl rounded-[3rem] opacity-50" />
+          <div className="absolute -inset-4 bg-gradient-to-r from-primary/5 to-cyan-500/5 blur-xl rounded-[3rem] opacity-50" />
           <motion.div
             key={selectedIdx}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative bg-black/40 border border-white/10 rounded-2xl p-4 sm:p-6"
+            className="relative bg-muted/50 border border-border rounded-2xl p-4 sm:p-6"
           >
             <div className="flex items-center gap-3 mb-4 opacity-50">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xl">👤</div>
+              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-xl">👤</div>
               <div>
-                <div className="h-2 w-24 bg-white/20 rounded-full mb-2" />
-                <div className="h-2 w-16 bg-white/10 rounded-full" />
+                <div className="h-2 w-24 bg-muted-foreground/20 rounded-full mb-2" />
+                <div className="h-2 w-16 bg-muted-foreground/10 rounded-full" />
               </div>
             </div>
             <p className="text-sm sm:text-base text-foreground/90 leading-relaxed font-medium">
-              "{SAMPLE_SCAM_MESSAGES[selectedIdx].content}"
+              &quot;{SAMPLE_SCAM_MESSAGES[selectedIdx].content}&quot;
             </p>
           </motion.div>
         </div>
@@ -125,18 +125,18 @@ export default function InteractiveDemo() {
             onClick={handleAnalyze}
             disabled={isAnalyzing}
             size="lg"
-            className="rounded-full px-8 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/40 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white border-0"
+            className="rounded-full px-8 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-xl shadow-primary/20 hover:shadow-primary/40 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white border-0"
           >
             {isAnalyzing ? (
               <span className="flex items-center gap-2">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, ease: 'linear', duration: 1 }}>
                   ⏳
                 </motion.div>
-                AI sedang menganalisis...
+                Menganalisis contoh...
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                <span className="text-xl">✨</span> Analisis Pesan Ini
+                <span className="text-xl">🛡️</span> Lihat Hasil Analisis
               </span>
             )}
           </Button>
@@ -170,9 +170,14 @@ export default function InteractiveDemo() {
                   </div>
                 </div>
 
-                <div className="bg-black/40 rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                <div className="bg-muted/50 rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   <span className="text-foreground font-medium">Penjelasan AI:</span> {result.explanation}
                 </div>
+
+                {/* Transparent label */}
+                <p className="text-[10px] text-muted-foreground/60 text-center">
+                  * Ini adalah contoh hasil analisis. Gunakan fitur Scanner untuk menganalisis pesan Anda sendiri.
+                </p>
               </div>
             </motion.div>
           )}
